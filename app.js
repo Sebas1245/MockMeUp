@@ -1,13 +1,17 @@
 require('dotenv').config()
 const express = require('express'),
     app = express(),
-    db = require('./config/db_config')
-PORT = 5000 || process.env.PORT;
+    dbConfig = require('./config/dbSetup'),
+    PORT = 5000 || process.env.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// initialize db 
+dbConfig();
 
+// Auth routes
+app.use('/api', require('./Auth'))
 
 app.get('/', (req, res) => {
     res.json({ msg: 'Hello from index route!' });
