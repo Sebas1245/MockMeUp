@@ -4,18 +4,18 @@ const mongoose = require('mongoose'),
     bcrypt = require('bcrypt');
 
 let userSchema = new mongoose.Schema({
-    fName: {
+    name: {
         type: String,
-        required: [true, "First name is missing"]
-    },
-    lName: {
-        type: String,
-        required: [true, "Last name is missing"]
+        required: [true, "Name is missing"]
     },
     email: {
         type: String,
         required: [true, "Email is missing"],
-
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Invalid email')
+            }
+        },
     },
     password: {
         select: false,
@@ -24,7 +24,6 @@ let userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "user",
         select: false
     },
     programmingLanguages: {
@@ -41,7 +40,15 @@ let userSchema = new mongoose.Schema({
         }],
         select: false,
     },
-})
+},
+    {
+        timestamps: true
+    })
+// Validate if email is unique - unique option only creates an index
+userSchema.path('email').validate(async function (value) {
+    const emailCount = await mongoose.models.User.countDocuments({ email: value, _id: { $ne: this._id } });
+    return !emailCount;
+}, 'There already is an account with this email!');
 
 userSchema.pre('save', function (next) {
     const user = this
@@ -57,11 +64,6 @@ userSchema.pre('save', function (next) {
     }
 
 })
-// Validate if email is unique - unique option only creates an index
-userSchema.path('email').validate(async function (value) {
-    const emailCount = await mongoose.models.User.countDocuments({ email: value, _id: { $ne: this._id } });
-    return !emailCount;
-}, 'There already is an account with this email!');
 
 userSchema.methods.comparePassword = async function (password) {
     const matches = await bcrypt.compare(password, this.password);
@@ -71,10 +73,11 @@ userSchema.methods.comparePassword = async function (password) {
 
 userSchema.methods.generateToken = async function () {
     const user = this;
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1 day' });
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '2 days' });
     user.tokens.push(token);
     await user.save();
     return token;
 }
+
 
 module.exports = mongoose.model('User', userSchema);

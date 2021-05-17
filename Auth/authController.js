@@ -4,10 +4,10 @@ const User = require('../models/User'),
 ctr = {};
 
 ctr.register = () => async (req, res, next) => {
-    const { email, fName, lName, password, confirmPassword, programmingLanguages } = req.body;
+    const { email, name, password, confirmPassword, role, programmingLanguages } = req.body;
     if (password != confirmPassword) return Promise.reject(new CustomError(400, "Passwords do not match"));
-    console.log(email, fName, lName, password, confirmPassword, programmingLanguages)
-    let user = new User({ fName, lName, email, password, programmingLanguages });
+    console.log(email, name, password, confirmPassword, programmingLanguages)
+    let user = new User({ name, email, password, role, programmingLanguages });
     await user.save();
     res.status(201).json({
         message: 'User created successfully!',
