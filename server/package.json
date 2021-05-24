@@ -1,7 +1,7 @@
 {
   "name": "mock-me-up",
   "version": "1.0.0",
-  "description": "",
+  "description": "Mock Me Up app server",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

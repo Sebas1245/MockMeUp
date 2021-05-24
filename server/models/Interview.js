@@ -9,6 +9,9 @@ const interviewSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Type of intreview has not been defined']
     },
+    feedback: {
+        type: String
+    },
     _interviewee: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, 'No interviewee set for interview.']
