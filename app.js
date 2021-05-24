@@ -12,6 +12,8 @@ dbConfig();
 
 // Auth routes
 app.use('/api', require('./Auth'))
+// User routes
+app.use('/api/users', require('./User'))
 
 app.get('/', (req, res) => {
     res.json({ msg: 'Hello from index route!' });
