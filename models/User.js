@@ -27,9 +27,16 @@ let userSchema = new mongoose.Schema({
         select: false
     },
     programmingLanguages: {
-        type: [{
-            type: String
-        }]
+        type: [{ type: String }]
+    },
+    availableDays: {
+        type: [{ type: String }]
+    },
+    availableHourStart: {
+        type: Number,
+    },
+    availableHourEnd: {
+        type: Number,
     },
     resume: {
         type: String,

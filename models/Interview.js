@@ -5,6 +5,10 @@ const interviewSchema = new mongoose.Schema({
         type: Date,
         required: [true, 'No date set for interview.']
     },
+    type: {
+        type: String,
+        required: [true, 'Type of intreview has not been defined']
+    },
     _interviewee: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, 'No interviewee set for interview.']

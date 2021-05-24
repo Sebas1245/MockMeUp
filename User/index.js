@@ -8,7 +8,7 @@ router.get('/', (req, res) => res.status(200).json({ msg: 'Hello from user index
 
 router.post('/book_interview', asyncHandler(isInterviewee), asyncHandler(userCtr.bookInterview()))
 
-router.post('/set_available_times', asyncHandler(userCtr.bookInterview));
+router.post('/set_available_times', asyncHandler(isInterviewer), asyncHandler(userCtr.setAvailableDates()));
 
 
 module.exports = router;
