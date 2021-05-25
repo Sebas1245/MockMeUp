@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,18 +12,25 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert'
+import axios from 'axios';
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="#">
                 Your Website
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
     );
+}
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +55,49 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
     const classes = useStyles();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [errorMsg, setErrorMsg] = useState('')
+    const [open, setOpen] = useState(false);
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        if (email === '' || password === '') {
+            setErrorMsg("Please fill in the required fields");
+            setOpen("true");
+        }
+        else {
+            const requestUrl = "http://localhost:5000/api/login";
+            console.log(requestUrl);
+            try {
+                const res = await axios.post(requestUrl, { email, password });
+                console.log(res.data);
+                const { token, user } = res.data;
+                // store user token 
+                sessionStorage.setItem('token', token);
+                // redirect to dashboard depending on user type
+                if (user.role === "interviewee") {
+                    // send to invterviewee dashboard
+                }
+                else if (user.role === "interviewer") {
+                    // send to invterviewer dashboard
+                }
+            } catch (error) {
+                console.log(error)
+                console.log(error.response.data)
+                setErrorMsg(error.response.data.message);
+                setOpen(true);
+            }
+        }
+    }
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        setErrorMsg('');
+    };
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -58,7 +107,7 @@ export default function SignIn() {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in
-        </Typography>
+                </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
                         variant="outlined"
@@ -70,6 +119,8 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        onChange={event => setEmail(event.target.value)}
+
                     />
                     <TextField
                         variant="outlined"
@@ -81,6 +132,7 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={event => setPassword(event.target.value)}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -92,14 +144,20 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={handleLogin}
                     >
                         Sign In
-          </Button>
+                    </Button>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error">
+                            {errorMsg}
+                        </Alert>
+                    </Snackbar>
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
                                 Forgot password?
-              </Link>
+                            </Link>
                         </Grid>
                         <Grid item>
                             <Link href="#" variant="body2">
@@ -115,3 +173,4 @@ export default function SignIn() {
         </Container>
     );
 }
+

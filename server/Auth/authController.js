@@ -28,7 +28,7 @@ ctr.login = () => async (req, res, next) => {
     user = user.toJSON();
     delete user.password;
     delete user.tokens;
-
+    console.log(user);
     res.status(201).json({
         success: true,
         message: "Login successful",

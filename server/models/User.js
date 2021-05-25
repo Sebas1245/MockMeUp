@@ -24,22 +24,27 @@ let userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        select: false
+        select: true
     },
     programmingLanguages: {
-        type: [{ type: String }]
+        type: [{ type: String }],
+        select: false
     },
     availableDays: {
-        type: [{ type: String }]
+        type: [{ type: String }],
+        select: false
     },
     availableHourStart: {
         type: Number,
+        select: false
     },
     availableHourEnd: {
         type: Number,
+        select: false
     },
     resume: {
         type: String,
+        select: false
     },
     tokens: {
         type: [{
