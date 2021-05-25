@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -15,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Copyright() {
     return (
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "#304d6d",
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: "#304d6d",
+        '&:hover': {
+            backgroundColor: '#20344a',
+        },
     },
 }));
 
@@ -154,13 +158,8 @@ export default function SignIn() {
                         </Alert>
                     </Snackbar>
                     <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link to="/signup" >
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>

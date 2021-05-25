@@ -20,15 +20,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(0,0,0,0.4)',
     fontFamily: 'Raleway',
   },
-  btn: {
+  btnLogin: {
     color: '#fff',
-    backgroundColor: '#07777D',
+    marginRight: '2rem',
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    '&:hover': {
+      backgroundColor: 'rgba(0,0,0,0.3)',
+    },
+  },
+  btnSignUp: {
+    color: '#fff',
+    borderColor: '#07777D',
+    fontWeight: 'bold',
     marginRight: '2rem',
     fontSize: '1rem',
     '&:hover': {
-      backgroundColor: '#055F64',
+      backgroundColor: 'rgba(0,0,0,0.3)',
     },
   },
+
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -101,15 +112,17 @@ export default function Header() {
             Mock Me Up
           </Typography>
           <Link to="/login" style={{ textDecoration: 'none' }}>
-            <Button className={classes.btn}>
+            <Button className={classes.btnLogin}>
               Login
             </Button>
           </Link>
           <Link to="/signup" style={{ textDecoration: 'none' }}>
-            <Button className={classes.btn}>
+            <Button variant="outlined" className={classes.btnSignUp}>
               Sign Up
             </Button>
           </Link>
+
+
 
         </Toolbar>
       </AppBar>
