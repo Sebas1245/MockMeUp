@@ -1,31 +1,29 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
-import Header from './components/Header';
-import JoinAs from './components/JoinAs'
+// Landing Page
+import LandingPage from './views/LandingPage';
+// Login Component 
+import SignIn from './views/SignIn';
+// Sign Up Component
+import SignUp from './views/SignUp';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-
-    root: {
-      minHeight: '100vh',
-      backgroundImage: `url(${process.env.PUBLIC_URL + '/landingPageBG.jpg'})`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-    }
-
-
-}));
 
 
 function App() {
-  const classes = useStyles();
-  return(
-    <div className = {classes.root}>
-      <CssBaseline/>
-      <Header />
-     
-      <JoinAs />
-    </div>
+
+  return (
+    <Router>
+      <div>
+        <CssBaseline />
+
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/login" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
