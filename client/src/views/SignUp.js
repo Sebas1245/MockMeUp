@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: '#07777d',
+
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: '#055f64',
         },
+
     },
 }));
 
@@ -63,6 +65,7 @@ export default function SignUp() {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
+
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -139,6 +142,7 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
+
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="#" variant="body2">

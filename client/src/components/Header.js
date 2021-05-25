@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(0,0,0,0.3)',
     },
   },
-
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -121,8 +120,6 @@ export default function Header() {
               Sign Up
             </Button>
           </Link>
-
-
 
         </Toolbar>
       </AppBar>
