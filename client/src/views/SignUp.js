@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: '#07777d',
+
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -43,6 +44,12 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        color: '#fff',
+        backgroundColor: '#07777d',
+        '&:hover': {
+            backgroundColor: '#055f64',
+        },
+
     },
 }));
 
@@ -58,7 +65,8 @@ export default function SignUp() {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
-        </Typography>
+
+                </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
@@ -108,6 +116,18 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confirmPassword "
+                                label="Confirm Password "
+                                type="confirmPassword "
+                                id="confirmPassword "
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                                 label="I want to receive inspiration, marketing promotions and updates via email."
@@ -118,11 +138,11 @@ export default function SignUp() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
                         className={classes.submit}
                     >
                         Sign Up
-          </Button>
+                    </Button>
+
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="#" variant="body2">
