@@ -11,16 +11,17 @@ const useStyles = makeStyles({
     maxWidth: 300,
     background: 'rgba(0,0,0,0.5)',
     margin: '20px',
+    padding: '2vh'
   },
   media: {
     height: 150,
     width: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: 'auto'
   },
   title: {
     color: 'white',
     fontFamily: 'Farro',
+    textAlign: 'center'
   },
   desc: {
     color: 'white',
