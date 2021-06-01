@@ -31,7 +31,7 @@ let userSchema = new mongoose.Schema({
         select: false
     },
     availableDays: {
-        type: [{ type: String }],
+        type: [{ type: Number }],
         select: false
     },
     availableHourStart: {
