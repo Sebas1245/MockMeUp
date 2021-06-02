@@ -16,6 +16,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import ListItemText from '@material-ui/core/ListItemText';
 
 function Copyright() {
     return (
@@ -61,9 +63,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+const programmingLanguages = [
+    'Python', 
+    'JavaScript', 
+    'Java',
+    'C/C++',
+    'GoLang',
+    'C#',
+    'SQL',
+    'Dart',
+    'R',
+    'PHP',
+];
+
 export default function SignUp() {
     const classes = useStyles();
     const [role, setRole] = useState('')
+    const [language, setProgrammingLanguages] = React.useState([]);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -123,6 +150,28 @@ export default function SignUp() {
                                     >
                                     <MenuItem value={"interviewer"}>Interviewer</MenuItem>
                                     <MenuItem value={"interviewee"}>Interviewee</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-mutiple-checkbox-label">Favorite Programming Languages</InputLabel>
+                                <Select
+                                    labelId="demo-mutiple-checkbox-label"
+                                    id="demo-mutiple-checkbox"
+                                    multiple
+                                    value={language}
+                                    onChange={ event => setProgrammingLanguages(event.target.value)}
+                                    input={<Input />}
+                                    renderValue={(selected) => selected.join(', ')}
+                                    MenuProps={MenuProps}
+                                >
+                                    {programmingLanguages.map((programmingLanguage) => (
+                                        <MenuItem key={programmingLanguage} value={programmingLanguage}>
+                                            <Checkbox checked={language.indexOf(programmingLanguage) > -1} />
+                                            <ListItemText primary={programmingLanguage} />
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
