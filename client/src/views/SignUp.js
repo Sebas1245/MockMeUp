@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 function Copyright() {
     return (
@@ -49,12 +53,17 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: '#055f64',
         },
-
+        
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
     },
 }));
 
 export default function SignUp() {
     const classes = useStyles();
+    const [role, setRole] = useState('')
 
     return (
         <Container component="main" maxWidth="xs">
@@ -102,6 +111,20 @@ export default function SignUp() {
                                 name="email"
                                 autoComplete="email"
                             />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Sign up as</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={role}
+                                    onChange={ event => setRole(event.target.value) }
+                                    >
+                                    <MenuItem value={"interviewer"}>Interviewer</MenuItem>
+                                    <MenuItem value={"interviewee"}>Interviewee</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
