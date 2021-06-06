@@ -70,8 +70,8 @@ export default function SignIn() {
             setOpen("true");
         }
         else {
-            const requestUrl = "http://localhost:5000/api/login";
-            console.log(requestUrl);
+
+            const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/login";
             try {
                 const res = await axios.post(requestUrl, { email, password });
                 console.log(res.data);

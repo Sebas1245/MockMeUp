@@ -111,7 +111,7 @@ export default function SignUp() {
             setOpen(true);
         }
         else {
-            const requestUrl = "http://localhost:5000/api/register";
+            const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/register";
             try {
                 const res = await axios.post(requestUrl, {
                     name,
