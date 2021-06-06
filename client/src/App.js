@@ -9,6 +9,9 @@ import SignUp from './views/SignUp';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
+import Dashboard from './views/Dashboard';
+
+
 
 function App() {
 
@@ -21,7 +24,9 @@ function App() {
           <Route exact path="/" component={LandingPage} />
           <Route path="/login" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/dashboard" component={Dashboard} />
         </Switch>
+
       </div>
     </Router>
   );
