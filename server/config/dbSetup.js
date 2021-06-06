@@ -4,6 +4,7 @@ function setup() {
     let uri = 'MONGODB_URI';
     if (process.env.NODE_ENV === 'test') uri += '_TEST'
     else if (process.env.NODE_ENV === 'dev') uri += '_DEV'
+    else if (process.env.NODE_ENV === 'prod') uri += '_PROD';
     mongoose.connect(process.env[uri], {
         useNewUrlParser: true,
         useFindAndModify: false,
