@@ -9,7 +9,7 @@ import SignUp from './views/SignUp';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
-import BookInterviewForm from './components/BookInterviewForm';
+import Dashboard from './views/Dashboard';
 
 
 
@@ -20,13 +20,13 @@ function App() {
       <div>
         <CssBaseline />
 
-         <Switch>
+        <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/login" component={SignIn} />
           <Route path="/signup" component={SignUp} />
-          
-        </Switch> 
-       
+          <Route path="/dashboard" component={Dashboard} />
+        </Switch>
+
       </div>
     </Router>
   );
