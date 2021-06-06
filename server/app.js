@@ -19,7 +19,7 @@ app.use('/api', require('./Auth'))
 app.use('/api/users', require('./User'))
 
 app.get('/', (req, res) => {
-    res.json({ msg: 'Hello from index route!' });
+    res.json({ msg: 'Hello from MockMeUp index route!' });
 })
 app.use(eHandler());
 app.use(sendAsJSON());

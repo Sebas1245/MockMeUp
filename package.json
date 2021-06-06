@@ -1,0 +1,24 @@
+{
+    "name": "mock_me_up",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server/app.js",
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {
+        "postinstall": "cd server && npm install",
+        "start": "node server/app.js",
+        "config": "cp .env.config .env",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Sebas1245/MockMeUp.git"
+    },
+    "author": "Sebastián Saldaña",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Sebas1245/MockMeUp/issues"
+    },
+    "homepage": "https://github.com/Sebas1245/MockMeUp#readme"
+}
