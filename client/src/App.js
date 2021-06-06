@@ -10,25 +10,28 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
 import Dashboard from './views/Dashboard';
+import Theme from './Theme';
 
 
 
 function App() {
 
   return (
-    <Router>
-      <div>
-        <CssBaseline />
+    <Theme>
+      <Router>
+        <div>
+          <CssBaseline />
 
-        <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="/login" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/dashboard" component={Dashboard} />
-        </Switch>
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/login" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/dashboard" component={Dashboard} />
+          </Switch>
 
-      </div>
-    </Router>
+        </div>
+      </Router>
+    </Theme>
   );
 }
 
