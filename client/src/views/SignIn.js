@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert'
+import Alert from '../components/Alert';
 import axios from 'axios';
 
 import { Link } from 'react-router-dom';
@@ -23,16 +23,12 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="#">
-                Your Website
+                MockMeUp
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
     );
-}
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -102,7 +98,6 @@ export default function SignIn() {
         }
 
         setOpen(false);
-        setErrorMsg('');
     };
     return (
         <Container component="main" maxWidth="xs">
@@ -116,7 +111,6 @@ export default function SignIn() {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
-                        variant="outlined"
                         margin="normal"
                         required
                         fullWidth
@@ -129,7 +123,6 @@ export default function SignIn() {
 
                     />
                     <TextField
-                        variant="outlined"
                         margin="normal"
                         required
                         fullWidth

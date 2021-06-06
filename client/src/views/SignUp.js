@@ -3,9 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -18,13 +16,17 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import ListItemText from '@material-ui/core/ListItemText';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '../components/Alert';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+            <Link color="inherit" to="/">
+                MockMeUp
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -55,11 +57,10 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: '#055f64',
         },
-        
+
     },
     formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
+        width: '100%',
     },
 }));
 
@@ -67,16 +68,16 @@ const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
     PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
     },
-  };
+};
 
 const programmingLanguages = [
-    'Python', 
-    'JavaScript', 
+    'Python',
+    'JavaScript',
     'Java',
     'C/C++',
     'GoLang',
@@ -89,9 +90,53 @@ const programmingLanguages = [
 
 export default function SignUp() {
     const classes = useStyles();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [role, setRole] = useState('')
     const [language, setProgrammingLanguages] = React.useState([]);
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState('')
+    const [open, setOpen] = useState(false);
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log(name, email, role, language, password);
+        if (!name || !email || !role || !language || !password || !confirmPassword) {
+            setErrorMsg("Fill in all required fields");
+            setOpen(true);
+        }
+        else if (password !== confirmPassword) {
+            setErrorMsg("Passwords are different");
+            setOpen(true);
+        }
+        else {
+            const requestUrl = "http://localhost:5000/api/register";
+            try {
+                const res = await axios.post(requestUrl, {
+                    name,
+                    email,
+                    role,
+                    programmingLanguages: language,
+                    password,
+                    confirmPassword
+                })
+                console.log(res.data);
+            }
+            catch (error) {
+                console.log(error.response.data)
+                setErrorMsg(error.response.data);
+                setOpen(true);
+            }
+        }
+    }
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -103,65 +148,54 @@ export default function SignUp() {
                     Sign up
 
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form onSubmit={handleSubmit} className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
+                                autoComplete="name"
+                                name="name"
                                 required
                                 fullWidth
                                 id="firstName"
-                                label="First Name"
+                                label="Your name"
                                 autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
+                                onChange={(event) => setName(event.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 id="email"
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                onChange={(event) => setEmail(event.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl className={classes.formControl}>
+                        <Grid item xs={12}>
+                            <FormControl required className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Sign up as</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={role}
-                                    onChange={ event => setRole(event.target.value) }
-                                    >
+                                    onChange={event => setRole(event.target.value)}
+                                >
                                     <MenuItem value={"interviewer"}>Interviewer</MenuItem>
                                     <MenuItem value={"interviewee"}>Interviewee</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl className={classes.formControl}>
+                        <Grid item xs={12}>
+                            <FormControl required className={classes.formControl}>
                                 <InputLabel id="demo-mutiple-checkbox-label">Favorite Programming Languages</InputLabel>
                                 <Select
                                     labelId="demo-mutiple-checkbox-label"
                                     id="demo-mutiple-checkbox"
                                     multiple
                                     value={language}
-                                    onChange={ event => setProgrammingLanguages(event.target.value)}
+                                    onChange={event => setProgrammingLanguages(event.target.value)}
                                     input={<Input />}
                                     renderValue={(selected) => selected.join(', ')}
                                     MenuProps={MenuProps}
@@ -177,7 +211,6 @@ export default function SignUp() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 name="password"
@@ -185,24 +218,19 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                onChange={(event) => setPassword(event.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 name="confirmPassword "
                                 label="Confirm Password "
-                                type="confirmPassword "
+                                type="password"
                                 id="confirmPassword "
                                 autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
+                                onChange={(event) => setConfirmPassword(event.target.value)}
                             />
                         </Grid>
                     </Grid>
@@ -217,13 +245,19 @@ export default function SignUp() {
 
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                Already have an account? Sign in
-              </Link>
+                            <Link to="/login" >
+
+                                {"Already have an account? Sign In"}
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>
             </div>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    {errorMsg}
+                </Alert>
+            </Snackbar>
             <Box mt={5}>
                 <Copyright />
             </Box>
