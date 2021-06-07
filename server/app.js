@@ -4,9 +4,9 @@ const express = require('express'),
     dbConfig = require('./config/dbSetup'),
     sendAsJSON = require('./middleware/sendAsJson'),
     eHandler = require('./middleware/errorHandler'),
+    PORT = process.env.PORT || 4000,
     path = require('path');
 
-const PORT = 5000 || process.env.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
