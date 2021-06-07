@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 
 // cambiar a solicitar esto del back
 const _fetchUser = () => {
-    return "Diego Guerrero";
+    return sessionStorage.getItem('user');
 }
 
 export default function Dashboard() {
@@ -165,7 +165,7 @@ export default function Dashboard() {
                         onClick={handleLogout}
                         color="inherit"
                         endIcon={<ExitToApp />}>
-                        Cerrar sesión
+                        Log Out
                     </Button>
                 </Toolbar>
             </AppBar>

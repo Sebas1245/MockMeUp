@@ -74,10 +74,10 @@ export default function SignIn() {
             const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/login";
             try {
                 const res = await axios.post(requestUrl, { email, password });
-                console.log(res.data);
                 const { token, user } = res.data;
                 // store user token 
                 sessionStorage.setItem('token', token);
+                console.log(user.name);
                 // redirect to dashboard depending on user type
                 if (user.role === "interviewee") {
                     // send to invterviewee dashboard
@@ -85,7 +85,7 @@ export default function SignIn() {
                 }
                 else if (user.role === "interviewer") {
                     // send to invterviewer dashboard
-                    history.push('/dashboard', { state: 'Interviewwer  login successful!' })
+                    history.push('/dashboard', { state: 'Interviewwer login successful!' })
                 }
             } catch (error) {
                 console.log(error)

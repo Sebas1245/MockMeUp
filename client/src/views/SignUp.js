@@ -18,7 +18,7 @@ import Input from '@material-ui/core/Input';
 import ListItemText from '@material-ui/core/ListItemText';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '../components/Alert';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 function Copyright() {
@@ -98,10 +98,10 @@ export default function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState('')
     const [open, setOpen] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(name, email, role, language, password);
         if (!name || !email || !role || !language || !password || !confirmPassword) {
             setErrorMsg("Fill in all required fields");
             setOpen(true);
@@ -121,7 +121,12 @@ export default function SignUp() {
                     password,
                     confirmPassword
                 })
-                console.log(res.data);
+                const { token, user } = res.data;
+                alert(JSON.stringify(user));
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('user', user.name);
+                history.push('/dashboard', { state: 'Login successful!' });
+
             }
             catch (error) {
                 console.log(error.response.data)
