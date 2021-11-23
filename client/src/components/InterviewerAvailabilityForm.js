@@ -82,7 +82,7 @@ const MenuProps = {
   
 
 export default function InterviewerAvailabilityForm() {
-    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const classes = useStyles();
     const theme = useTheme();   
     const [selectedDays, setSelectedDays] = useState([]);
@@ -115,7 +115,6 @@ export default function InterviewerAvailabilityForm() {
             setOpen(true);
         } else {
             const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/users/set_available_times";
-            console.log(requestUrl)
             const data = {
                 availableDays: selectedIndices, 
                 availableHourStart: submitStartTime, 
@@ -140,7 +139,7 @@ export default function InterviewerAvailabilityForm() {
                     setEndTime(new Date());
                 }
             } catch (error) {
-                setErrorMsg('An unexpected error ocurred: ' + error);
+                setErrorMsg(error.response.data.message);
                 setOpen(true);
             }
         }

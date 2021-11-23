@@ -11,10 +11,10 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
-
-// function Alert(props) {
-//   return <MuiAlert elevation={6} variant="filled" {...props} />;
-// }
+import Snackbar from '@material-ui/core/Snackbar';
+import axios from 'axios';
+import Alert from '../components/Alert';
+import {getToken} from '../services/tokenUtilities'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -77,15 +77,18 @@ const freeOrPro = [
 
 export default function BookInterviewForm() {
   const classes = useStyles();
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(roundMinutes(new Date()));
   const [intType, setType] = React.useState('Web');
   const [freePro, setFreePro] = React.useState('Free');
-  const [selectedExDate, handleExDateChange] = useState(new Date());
+  const [selectedExDate, setExDate] = useState(roundMinutes(new Date()));
   const [ccNumber, setccNumber] = useState('');
   const [fName, setfName] = useState('');
   const [lName, setlName] = useState('');
   const [cvc, setCvc] = useState('');
-
+  const [errorMsg, setErrorMsg] = useState('')
+  const [successMsg, setSuccessMsg] = useState('')
+  const [open, setOpen] = useState(false);
+  const [openSucess, setOpenSuccess] = useState(false);
   const handleTypeChange = (event) => {
     setType(event.target.value);
   };
@@ -94,6 +97,44 @@ export default function BookInterviewForm() {
     setFreePro(event.target.value);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/users/book_interview";
+    const data = {
+        interviewDate: selectedDate,
+        interviewType: intType
+    }
+    const token = getToken();
+    console.log(token)
+    try {
+        const res = await axios.post(requestUrl, data,
+            {
+                headers: {
+                    Authorization: `Bearer: ${token}`
+                }
+            }
+        )
+        if (res.status === 200) {
+            setSuccessMsg('Your interview has been scheduled!');
+            setOpen(false);
+            setOpenSuccess(true);
+            setSelectedDate(roundMinutes(new Date()));
+            setType('Web');
+        }
+        console.log(res.status)
+    } catch (error) {
+      setErrorMsg(error.response.data.message);
+      setOpen(true);
+    }
+  }
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+
+    setOpen(false);
+    setOpenSuccess(false);
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -101,14 +142,17 @@ export default function BookInterviewForm() {
         <Typography component="h1" variant="h5">
           Book an Interview!
                 </Typography>
-        <form className={classes.form} noValidate>
+        <form
+         onSubmit={handleSubmit}
+         className={classes.form} noValidate>
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DateTimePicker
+              minutesStep={30}
               disablePast
               fullWidth
               value={selectedDate}
-              onChange={handleDateChange}
+              onChange={(newValue) => setSelectedDate(newValue)}
               id="interviewDate"
               margin="normal"
               name="interviewDate"
@@ -205,7 +249,7 @@ export default function BookInterviewForm() {
                         value={selectedExDate}
                         helperText="Expiration Date"
                         required
-                        onChange={handleExDateChange}
+                        onChange={newValue => setExDate(newValue)}
                       />
                     </MuiPickersUtilsProvider>
 
@@ -241,8 +285,24 @@ export default function BookInterviewForm() {
 
         </form>
       </div>
-
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error">
+              {errorMsg}
+          </Alert>
+      </Snackbar>
+      <Snackbar open={openSucess} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+              {successMsg}
+          </Alert>
+      </Snackbar>
     </Container>
   );
 }
 
+function roundMinutes(date) {
+
+  date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+  date.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
+
+  return date;
+}
