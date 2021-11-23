@@ -77,7 +77,8 @@ export default function SignIn() {
                 const { token, user } = res.data;
                 // store user token 
                 sessionStorage.setItem('token', token);
-                sessionStorage.setItem('user', user.name);
+                sessionStorage.setItem('userName', user.name);
+                sessionStorage.setItem('userRole', user.role);
                 // redirect to dashboard depending on user type
                 if (user.role === "interviewee") {
                     // send to invterviewee dashboard

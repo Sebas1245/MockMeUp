@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 // import MuiAlert from '@material-ui/lab/Alert'
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormLabel from '@material-ui/core/FormLabel';
 
@@ -104,7 +104,7 @@ export default function BookInterviewForm() {
         <form className={classes.form} noValidate>
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
+            <DateTimePicker
               disablePast
               fullWidth
               value={selectedDate}
@@ -197,7 +197,7 @@ export default function BookInterviewForm() {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <DatePicker
+                      <DateTimePicker
                         margin="normal"
                         views={["year", "month"]}
                         disablePast

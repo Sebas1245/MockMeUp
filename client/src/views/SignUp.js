@@ -123,7 +123,8 @@ export default function SignUp() {
                 })
                 const { token, user } = res.data;
                 sessionStorage.setItem('token', token);
-                sessionStorage.setItem('user', user.name);
+                sessionStorage.setItem('userName', user.name);
+                sessionStorage.setItem('userRole', user.role);
                 navigate('/dashboard');
 
             }
