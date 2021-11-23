@@ -127,7 +127,7 @@ export default function Header() {
       <Collapse in={checked} {...(checked ? { timeout: 1000 } : {})} collapsedHeight={50}>
         <div className={classes.banner}>
           <h1>One place to <br /> <span className={classes.color}>connect<span id="cursor">|</span> </span></h1>
-          <div class={classes.goDown}>
+          <div className={classes.goDown}>
             <Scroll to="roles" smooth={true}>
               <IconButton>
                 <KeyboardArrowDownIcon className={classes.goDown} />

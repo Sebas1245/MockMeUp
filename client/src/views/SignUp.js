@@ -18,7 +18,7 @@ import Input from '@material-ui/core/Input';
 import ListItemText from '@material-ui/core/ListItemText';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '../components/Alert';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Copyright() {
@@ -98,7 +98,7 @@ export default function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState('')
     const [open, setOpen] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -122,14 +122,13 @@ export default function SignUp() {
                     confirmPassword
                 })
                 const { token, user } = res.data;
-                alert(JSON.stringify(user));
                 sessionStorage.setItem('token', token);
                 sessionStorage.setItem('user', user.name);
-                history.push('/dashboard', { state: 'Login successful!' });
+                navigate('/dashboard');
 
             }
             catch (error) {
-                console.log(error.response.data)
+                console.log(error.response.data);
                 setErrorMsg(error.response.data);
                 setOpen(true);
             }

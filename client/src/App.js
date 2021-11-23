@@ -6,31 +6,35 @@ import LandingPage from './views/LandingPage';
 import SignIn from './views/SignIn';
 // Sign Up Component
 import SignUp from './views/SignUp';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-
+import {  Routes, Route } from 'react-router-dom';
+import RequireAuth from './RequireAuth'
 import Dashboard from './views/Dashboard';
 import Theme from './Theme';
+import { getToken } from './services/tokenUtilities';
 
 
 
 function App() {
-
   return (
     <Theme>
-      <Router>
         <div>
           <CssBaseline />
 
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route path="/login" component={SignIn} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/dashboard" component={Dashboard} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route
+            path="/dashboard"
+            element={ 
+               <RequireAuth>
+                  <Dashboard />
+              </RequireAuth> 
+            }
+          />
+          </Routes>
 
         </div>
-      </Router>
     </Theme>
   );
 }

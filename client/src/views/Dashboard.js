@@ -15,10 +15,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import { Button, Typography } from '@material-ui/core';
 // React router
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // componentes 
 import DashboardMenu from '../components/DashboardMenu';
 import BookInterviewForm from '../components/BookInterviewForm';
+import { deleteToken } from '../services/tokenUtilities';
 // vistas
 
 
@@ -113,7 +114,7 @@ export default function Dashboard() {
     const [open, setOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [user, setUser] = useState('');
-    let history = useHistory();
+    const navigate = useNavigate();
     useEffect(() => {
         setUser(_fetchUser());
     }, [])
@@ -122,7 +123,7 @@ export default function Dashboard() {
 
         switch (selectedIndex) {
             case 0:
-                return; // remplazar por vista
+                return <BookInterviewForm />; // remplazar por vista
             case 1:
                 return;
             case 2:
@@ -140,7 +141,8 @@ export default function Dashboard() {
         setOpen(false);
     };
     const handleLogout = () => {
-        history.push('/', { status: "Adios!" });
+        deleteToken();
+        navigate('/', { status: "Adios!" });
     }
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -192,8 +194,8 @@ export default function Dashboard() {
                         {/* Render view depending on selected menu item */}
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper className={fixedHeightPaper}>
-                                <BookInterviewForm />
-                                {/* {renderView(selectedIndex)} */}
+                                
+                                {renderView(selectedIndex)}
                             </Paper>
                         </Grid>
 

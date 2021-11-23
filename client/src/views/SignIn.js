@@ -15,16 +15,16 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '../components/Alert';
 import axios from 'axios';
 
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="#">
+            <Link color="inherit" to="#">
                 MockMeUp
-      </Link>{' '}
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -61,7 +61,7 @@ export default function SignIn() {
     const [password, setPassword] = useState('')
     const [errorMsg, setErrorMsg] = useState('')
     const [open, setOpen] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -81,11 +81,11 @@ export default function SignIn() {
                 // redirect to dashboard depending on user type
                 if (user.role === "interviewee") {
                     // send to invterviewee dashboard
-                    history.push('/dashboard', { state: 'Login successful!' });
+                    navigate('/dashboard', { state: 'Login successful!' });
                 }
                 else if (user.role === "interviewer") {
                     // send to invterviewer dashboard
-                    history.push('/dashboard', { state: 'Interviewwer login successful!' })
+                    navigate('/dasbhoard', { state: 'Interviewwer login successful!' })
                 }
             } catch (error) {
                 console.log(error)
