@@ -86,7 +86,7 @@ export default function SignIn() {
                 }
                 else if (user.role === "interviewer") {
                     // send to invterviewer dashboard
-                    navigate('/dasbhoard', { state: 'Interviewwer login successful!' })
+                    navigate('/dashboard', { state: 'Interviewwer login successful!' })
                 }
             } catch (error) {
                 console.log(error)

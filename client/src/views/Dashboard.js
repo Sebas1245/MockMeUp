@@ -21,6 +21,7 @@ import DashboardMenu from '../components/DashboardMenu';
 import BookInterviewForm from '../components/BookInterviewForm';
 import { deleteToken } from '../services/tokenUtilities';
 import Calendar from '../components/Calendar';
+import InterviewerAvailabilityForm from '../components/InterviewerAvailabilityForm';
 // vistas
 
 
@@ -129,7 +130,7 @@ export default function Dashboard() {
 
         switch (selectedIndex) {
             case 0:
-                return role === "interviewee" ? <BookInterviewForm /> : <h2>Availability Form</h2>; // remplazar por vista
+                return role === "interviewee" ? <BookInterviewForm /> : <InterviewerAvailabilityForm/>; // remplazar por vista
             case 1:
                 return <Calendar />;
             case 2:
