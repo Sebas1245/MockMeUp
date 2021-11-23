@@ -10,7 +10,6 @@ import {  Routes, Route } from 'react-router-dom';
 import RequireAuth from './RequireAuth'
 import Dashboard from './views/Dashboard';
 import Theme from './Theme';
-import { getToken } from './services/tokenUtilities';
 
 
 

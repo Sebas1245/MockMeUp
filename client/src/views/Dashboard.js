@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import DashboardMenu from '../components/DashboardMenu';
 import BookInterviewForm from '../components/BookInterviewForm';
 import { deleteToken } from '../services/tokenUtilities';
+import Calendar from '../components/Calendar';
 // vistas
 
 
@@ -125,7 +126,7 @@ export default function Dashboard() {
             case 0:
                 return <BookInterviewForm />; // remplazar por vista
             case 1:
-                return;
+                return <Calendar />;
             case 2:
                 return (<p>Vista de Calendario de Programación </p>); // reemplazar por vista
             case 3:
