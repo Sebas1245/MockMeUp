@@ -77,7 +77,8 @@ export default function SignIn() {
                 const { token, user } = res.data;
                 // store user token 
                 sessionStorage.setItem('token', token);
-                sessionStorage.setItem('user', user.name);
+                sessionStorage.setItem('userName', user.name);
+                sessionStorage.setItem('userRole', user.role);
                 // redirect to dashboard depending on user type
                 if (user.role === "interviewee") {
                     // send to invterviewee dashboard
@@ -85,7 +86,7 @@ export default function SignIn() {
                 }
                 else if (user.role === "interviewer") {
                     // send to invterviewer dashboard
-                    navigate('/dasbhoard', { state: 'Interviewwer login successful!' })
+                    navigate('/dashboard', { state: 'Interviewwer login successful!' })
                 }
             } catch (error) {
                 console.log(error)
