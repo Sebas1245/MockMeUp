@@ -22,7 +22,6 @@ import BookInterviewForm from '../components/BookInterviewForm';
 import { deleteToken } from '../services/tokenUtilities';
 import Calendar from '../components/Calendar';
 import InterviewerAvailabilityForm from '../components/InterviewerAvailabilityForm';
-// vistas
 
 
 const drawerWidth = 240;
@@ -203,6 +202,7 @@ export default function Dashboard() {
                             <Paper className={fixedHeightPaper}>
                                 
                                 {renderView(selectedIndex, role)}
+
                             </Paper>
                         </Grid>
 
