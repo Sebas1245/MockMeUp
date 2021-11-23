@@ -1,6 +1,6 @@
 import 'date-fns';
 import React, { useState } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -16,6 +16,12 @@ import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import axios from 'axios';
+import Alert from '../components/Alert';
+import {getToken} from '../services/tokenUtilities'
+
+
 
 
 
@@ -79,26 +85,86 @@ export default function InterviewerAvailabilityForm() {
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     const classes = useStyles();
     const theme = useTheme();   
-    const currentDate = new Date()
     const [selectedDays, setSelectedDays] = useState([]);
     const [selectedIndices, setSelectedIndices] = useState([]);
-    const [startTime, setStartTime] = useState(currentDate)
-    const [endTime, setEndTime] = useState(currentDate)
+    const [startTime, setStartTime] = useState(roundMinutes(new Date()))
+    const [endTime, setEndTime] = useState(roundMinutes(new Date()))
+    const [errorMsg, setErrorMsg] = useState('')
+    const [successMsg, setSuccessMsg] = useState('')
+    const [open, setOpen] = useState(false);
+    const [openSucess, setOpenSuccess] = useState(false);
     const handleSelectedDaysChange = (e) => {
-        setSelectedDays(e.target.value)
-        setSelectedIndices([...selectedIndices, selectedDays.indexOf(e.target.value)])
+        const newSelectedDays = e.target.value;
+        setSelectedDays(newSelectedDays)
+        let newSelectedIndices = [];
+        newSelectedDays.forEach((day) => {
+            newSelectedIndices.push(weekdays.indexOf(day));
+        })
+        newSelectedIndices.sort()
+        setSelectedIndices(newSelectedIndices)
     }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const submitStartTime = startTime.getHours() + (startTime.getMinutes()/60)
+        const submitEndTime = endTime.getHours() + (endTime.getMinutes()/60)
+        if (submitStartTime === submitEndTime) {
+            setErrorMsg('Start and end time cannot be the same!');
+            setOpen(true);
+        } else if (submitStartTime > submitEndTime) {
+            setErrorMsg('Start time cannot be after end time!');
+            setOpen(true);
+        } else {
+            const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/users/set_available_times";
+            console.log(requestUrl)
+            const data = {
+                availableDays: selectedIndices, 
+                availableHourStart: submitStartTime, 
+                availableHourEnd: submitEndTime
+            }
+            const token = getToken();
+            console.log(token)
+            try {
+                const res = await axios.put(requestUrl, data,
+                    {
+                        headers: {
+                            Authorization: `Bearer: ${token}`
+                        }
+                    }
+                )
+                if (res.status === 200) {
+                    setSuccessMsg('Your availability has been updated!');
+                    setOpen(false);
+                    setOpenSuccess(true);
+                    setSelectedDays([]);
+                    setStartTime(new Date());
+                    setEndTime(new Date());
+                }
+            } catch (error) {
+                setErrorMsg('An unexpected error ocurred: ' + error);
+                setOpen(true);
+            }
+        }
+    }
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        setOpenSuccess(false);
+    };
     return (
         
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    Set your availability for the week!
+                    Set your availability!
                 </Typography>
-                <form className={classes.form}>
+                <form className={classes.form}
+                onSubmit={handleSubmit}>
                 <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-mutiple-chip-label">Your available days</InputLabel>
+                    <InputLabel id="demo-mutiple-chip-label">Pick your available days of the week</InputLabel>
                     <Select
                     labelId="demo-mutiple-chip-label"
                     id="demo-mutiple-chip"
@@ -116,7 +182,7 @@ export default function InterviewerAvailabilityForm() {
                     MenuProps={MenuProps}
                     >
                     {weekdays.map((day) => (
-                        <MenuItem key={day} value={day} style={getStyles(day, selectedDays, theme)}>
+                        <MenuItem key={day} value={day} style={getStyles(day, weekdays, theme)}>
                         {day}
                         </MenuItem>
                     ))}
@@ -124,6 +190,7 @@ export default function InterviewerAvailabilityForm() {
                 </FormControl>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardTimePicker
+                    minutesStep={30}
                     className={classes.formControl}
                     margin="normal"
                     id="time-picker"
@@ -135,6 +202,7 @@ export default function InterviewerAvailabilityForm() {
                     }}
                     />
                     <KeyboardTimePicker
+                    minutesStep={30}
                     className={classes.formControl}
                     margin="normal"
                     id="time-picker"
@@ -157,7 +225,25 @@ export default function InterviewerAvailabilityForm() {
                 </Button>
             </form>
             </div>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    {errorMsg}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openSucess} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    {successMsg}
+                </Alert>
+            </Snackbar>
         </Container>
         
     )
+}
+
+function roundMinutes(date) {
+
+    date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+    date.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
+
+    return date;
 }

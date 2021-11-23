@@ -26,7 +26,8 @@ ctr.login = () => async (req, res, next) => {
     const matches = await user.comparePassword(password);
     if (!matches) return Promise.reject(new CustomError(401, "Email or password incorrect, please try again."));
 
-    const token = createToken(user);
+    const token = await createToken(user);
+    console.log(token);
     res.status(201).json({
         success: true,
         message: "Login successful",
