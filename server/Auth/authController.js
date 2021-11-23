@@ -9,7 +9,7 @@ ctr.register = () => async (req, res, next) => {
     console.log(email, name, password, confirmPassword, programmingLanguages)
     let user = new User({ name, email, password, role, programmingLanguages });
     await user.save();
-    const token = createToken(user);
+    const token = await createToken(user);
     res.status(201).json({
         message: 'User created successfully!',
         user,
