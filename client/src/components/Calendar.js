@@ -10,27 +10,7 @@ import {
   Appointments,
   AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { useTheme } from '@material-ui/core/styles';
 import { useInterviews } from '../hooks/useInterviews';
-
-const dummyAppointments = [
-    {
-        title: 'Interview with John Smith',
-        startDate: new Date(2021, 10, 22, 17),
-        endDate: new Date(2021, 10, 22, 18),
-    }, 
-    {
-        title: 'Interview with John Smith',
-        startDate: new Date(2021, 10, 24, 10),
-        endDate: new Date(2021, 10, 24, 11),
-    }, 
-    {
-        title: 'Interview with John Smith',
-        startDate: new Date(2021, 10, 23, 13),
-        endDate: new Date(2021, 10, 23, 14),
-    }, 
-]
-
 
 const formatInterviews = (interviews)=>{
     let formattedInterviews = [];
@@ -42,12 +22,6 @@ const formatInterviews = (interviews)=>{
         });
         return formattedInterviews;
     }
-}
-
-const Layout = ({ appointmentMeta, visible, onHide, ...restProps }) => {
-    return (<div>
-        <p>Component</p>
-    </div>)
 }
 
 const Calendar = () => {
@@ -66,14 +40,17 @@ const Calendar = () => {
             startDayHour={8}
             endDayHour={20}
             />
-            <Appointments appointmentComponent={CustomAppointmentRender } />
-            <AppointmentTooltip layoutComponent={Layout}/>
+            <Appointments />
+            <AppointmentTooltip />
             <Toolbar/>
             <DateNavigator />
             <ViewSwitcher />
         </Scheduler>
     )
 };
+
+/* TODO Add a Tooltip component as well
+import { useTheme } from '@material-ui/core/styles';
 
 const CustomAppointmentRender = ({ children, style, data, ...restProps }) => {
     const theme = useTheme()
@@ -90,6 +67,6 @@ const CustomAppointmentRender = ({ children, style, data, ...restProps }) => {
         </Appointments.Appointment>
     )
 }
-
+*/
 
 export default Calendar;
