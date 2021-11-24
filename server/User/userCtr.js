@@ -45,6 +45,7 @@ ctr.bookInterview = () => async (req, res, next) => {
 ctr.setAvailableDates = () => async (req, res, next) => {
     const user = req.user;
     const { availableDays, availableHourStart, availableHourEnd } = req.body;
+    console.log(availableDays, availableHourStart, availableHourEnd);
     let updatedUser = await User.findByIdAndUpdate(user._id, { availableDays, availableHourStart, availableHourEnd }).exec();
 
     if (!updatedUser)

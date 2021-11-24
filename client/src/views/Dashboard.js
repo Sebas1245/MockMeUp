@@ -20,7 +20,8 @@ import { useNavigate } from "react-router-dom";
 import DashboardMenu from '../components/DashboardMenu';
 import BookInterviewForm from '../components/BookInterviewForm';
 import { deleteToken } from '../services/tokenUtilities';
-// vistas
+import Calendar from '../components/Calendar';
+import InterviewerAvailabilityForm from '../components/InterviewerAvailabilityForm';
 
 
 const drawerWidth = 240;
@@ -104,28 +105,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// cambiar a solicitar esto del back
 const _fetchUser = () => {
-    return sessionStorage.getItem('user');
+    return sessionStorage.getItem('userName');
+}
+
+const _fetchRole= () => {
+    return sessionStorage.getItem('userRole');
 }
 
 export default function Dashboard() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState(_fetchUser());
+    const [role, setRole] = useState(_fetchRole());
     const navigate = useNavigate();
     useEffect(() => {
         setUser(_fetchUser());
+        setRole(_fetchRole());
     }, [])
     //function to change  rendered view depending on which tab is currently selected
     const renderView = (selectedIndex, role) => {
 
         switch (selectedIndex) {
             case 0:
-                return <BookInterviewForm />; // remplazar por vista
+                return role === "interviewee" ? <BookInterviewForm /> : <InterviewerAvailabilityForm/>; // remplazar por vista
             case 1:
-                return;
+                return <Calendar />;
             case 2:
                 return (<p>Vista de Calendario de Programación </p>); // reemplazar por vista
             case 3:
@@ -195,7 +201,8 @@ export default function Dashboard() {
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper className={fixedHeightPaper}>
                                 
-                                {renderView(selectedIndex)}
+                                {renderView(selectedIndex, role)}
+
                             </Paper>
                         </Grid>
 
