@@ -13,12 +13,35 @@ const interviewSchema = new mongoose.Schema({
         type: String
     },
     _interviewee: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'No interviewee set for interview.']
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: [true, 'No interviewee set for interview.']
+        }, 
+        name: {
+            type: String,
+        },
+        email: {
+            type: String,
+        },
+        phone: {
+            type: String,
+        }
+        
     },
     _interviewer: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'No interviewer set for interview.']
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: [true, 'No interviewer set for interview.']
+        }, 
+        name: {
+            type: String,
+        },
+        email: {
+            type: String,
+        },
+        phone: {
+            type: String,
+        }
     }
 })
 

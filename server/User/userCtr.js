@@ -15,7 +15,7 @@ ctr.bookInterview = () => async (req, res, next) => {
     console.log('Line 15', interviewersScheduledAtDate);
     if (interviewersScheduledAtDate.length !== 0) {
         interviewersScheduledAtDate = [...new Set(interviewersScheduledAtDate)]
-        interviewersScheduledAtDate = interviewersScheduledAtDate.map(interviewer => interviewer._interviewer);
+        interviewersScheduledAtDate = interviewersScheduledAtDate.map(interviewer => interviewer._interviewer.id);
     }
     console.log('Line 20', interviewersScheduledAtDate)
     let possibleInterviewers = await User.find({
@@ -32,12 +32,13 @@ ctr.bookInterview = () => async (req, res, next) => {
     // if yes then schedule the interview
     const interviewer = Math.floor(Math.random() * possibleInterviewers.length) // choose a random interviewer out of all possible options
     console.log(interviewer, possibleInterviewers[interviewer]._id)
+    const selectedInterviewer = possibleInterviewers[interviewer]
     const newInterview = new Interview({
         date: convertedDate,
         type: interviewType,
-        _interviewee: user._id,
-        _interviewer: possibleInterviewers[interviewer]._id
-    })
+        _interviewee: {id:user._id, name: user.name, email: user.email, phone:user.phone},
+        _interviewer: {id: selectedInterviewer._id, name: selectedInterviewer.name, email: selectedInterviewer.email, phone: selectedInterviewer.phone},
+    });
     await newInterview.save();
     res.status(200).json({ message: 'success', newInterview })
 }
@@ -56,8 +57,7 @@ ctr.setAvailableDates = () => async (req, res, next) => {
 
 ctr.getInterviewsByUserId = () => async (req, res, next) =>{
     const user = req.user;
-    let interviews = await Interview.find({$or: [{interviewer: user._id}, {interviewee: user._id}]});
-   
+    let interviews = await Interview.find({$or: [{"_interviewee.id": user._id }, {"_interviewer.id": user._id}]});
     return res.status(200).json({interviews: interviews ?? []});
 }
 

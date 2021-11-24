@@ -10,12 +10,12 @@ import {  Routes, Route } from 'react-router-dom';
 import RequireAuth from './RequireAuth'
 import Dashboard from './views/Dashboard';
 import Theme from './Theme';
-import { getToken } from './services/tokenUtilities';
-
-
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+const queryClient = new QueryClient()
 
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <Theme>
         <div>
           <CssBaseline />
@@ -36,6 +36,7 @@ function App() {
 
         </div>
     </Theme>
+    </QueryClientProvider>
   );
 }
 
