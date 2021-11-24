@@ -135,8 +135,8 @@ export default function InterviewerAvailabilityForm() {
                     setOpen(false);
                     setOpenSuccess(true);
                     setSelectedDays([]);
-                    setStartTime(new Date());
-                    setEndTime(new Date());
+                    setStartTime(roundMinutes(new Date()));
+                    setEndTime(roundMinutes(new Date()));
                 }
             } catch (error) {
                 setErrorMsg(error.response.data.message);
