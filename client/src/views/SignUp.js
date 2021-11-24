@@ -92,6 +92,7 @@ export default function SignUp() {
     const classes = useStyles();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [role, setRole] = useState('')
     const [language, setProgrammingLanguages] = React.useState([]);
     const [password, setPassword] = useState('');
@@ -102,7 +103,7 @@ export default function SignUp() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!name || !email || !role || !language || !password || !confirmPassword) {
+        if (!name || !email || !phone || !role || !language || !password || !confirmPassword) {
             setErrorMsg("Fill in all required fields");
             setOpen(true);
         }
@@ -113,10 +114,12 @@ export default function SignUp() {
         else {
             const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/register";
             try {
+                console.log(phone);
                 const res = await axios.post(requestUrl, {
                     name,
                     email,
                     role,
+                    phone,
                     programmingLanguages: language,
                     password,
                     confirmPassword
@@ -175,6 +178,17 @@ export default function SignUp() {
                                 name="email"
                                 autoComplete="email"
                                 onChange={(event) => setEmail(event.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="phone"
+                                label="Mobile phone"
+                                name="phone"
+                                autoComplete="phone"
+                                onChange={(event) => setPhone(event.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

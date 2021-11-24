@@ -17,6 +17,15 @@ let userSchema = new mongoose.Schema({
             }
         },
     },
+    phone:{
+        type: String,
+        required: [true, "Mobile phone is missing"],
+        validate(value) {
+            if (!validator.isMobilePhone(value)) {
+                throw new Error('Invalid mobile phone')
+            }
+        },
+    },
     password: {
         select: false,
         type: String,

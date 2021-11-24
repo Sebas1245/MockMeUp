@@ -48,10 +48,17 @@ ctr.setAvailableDates = () => async (req, res, next) => {
     let updatedUser = await User.findByIdAndUpdate(user._id, { availableDays, availableHourStart, availableHourEnd }).exec();
 
     if (!updatedUser)
-        throw new CustomError(404, 'User not found')
+        throw new CustomError(404, 'User not found');
 
     return res.status(200).json({ updatedUser })
-
 }
+
+ctr.getInterviewsByUserId = () => async (req, res, next) =>{
+    const user = req.user;
+    let interviews = await Interview.find({$or: [{interviewer: user._id}, {interviewee: user._id}]});
+   
+    return res.status(200).json({interviews: interviews ?? []});
+}
+
 
 module.exports = ctr;
