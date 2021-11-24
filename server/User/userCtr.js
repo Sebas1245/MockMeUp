@@ -8,7 +8,9 @@ ctr.bookInterview = () => async (req, res, next) => {
     const { interviewDate, interviewType } = req.body
     const convertedDate = new Date(interviewDate);
     const interviewWeekDay = convertedDate.getDay();
-    const interviewStartHour = convertedDate.getHours();
+    // TODO fix time zone changes coming from server
+    // -6 is a temporary bug fix
+    const interviewStartHour = convertedDate.getHours() - 6;
     console.log("interviewWeekDay: ", interviewWeekDay)
     console.log("interviewStartHour: ", interviewStartHour)
     // check if an interviewer is available for the chosen date and time 
