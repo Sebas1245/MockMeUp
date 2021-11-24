@@ -22,6 +22,7 @@ import BookInterviewForm from '../components/BookInterviewForm';
 import { deleteToken } from '../services/tokenUtilities';
 import Calendar from '../components/Calendar';
 import InterviewerAvailabilityForm from '../components/InterviewerAvailabilityForm';
+import Problems from '../components/Problems';
 
 
 const drawerWidth = 240;
@@ -133,7 +134,7 @@ export default function Dashboard() {
             case 1:
                 return <Calendar />;
             case 2:
-                return (<p>Vista de Calendario de Programación </p>); // reemplazar por vista
+                return <Problems/>
             case 3:
                 return (<p>Vista de Documentación</p>); // reemplazar por vista
             default:

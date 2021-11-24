@@ -2,11 +2,10 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { getToken } from "../services/tokenUtilities";
 
-const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/users/interviews";
+const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/problems";
 
-const fetchInterviews = async () => {
+const fetchProblems = async () => {
   let token = getToken();
-  console.log(token);
   try{
     let response = await axios.get(requestUrl,{
       headers: {
@@ -20,12 +19,12 @@ const fetchInterviews = async () => {
   return [];
 };
 
-export const useInterviews = () => {
+export const useProblems = () => {
   return useQuery(
-    ["interviews"],
+    ["problems"],
     async () => {
-      const interviews = await fetchInterviews();
-      return interviews;
+      const problems = await fetchProblems();
+      return problems;
     },
     {
       initialData: [],

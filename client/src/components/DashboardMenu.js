@@ -6,14 +6,15 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 // icons
 import BookIcon from '@material-ui/icons/Book';
+import Assignment from '@material-ui/icons/Assignment'
 import CalendarTodaySharpIcon from '@material-ui/icons/CalendarTodaySharp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Divider } from '@material-ui/core';
 
 export default function DashboardMenu({ selectedIndex, setSelectedIndex, user }) {
 
-    const intervieweeItems = ["Book an interview", "Interview calendar"]
-    const intervieweeIcons = [<BookIcon />, <CalendarTodaySharpIcon />]
+    const intervieweeItems = ["Book an interview", "Interview calendar", "Practice problems"]
+    const intervieweeIcons = [<BookIcon />, <CalendarTodaySharpIcon />, <Assignment/>]
     
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
