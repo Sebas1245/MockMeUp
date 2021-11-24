@@ -99,13 +99,13 @@ export default function BookInterviewForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(selectedDate)
     const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/users/book_interview";
     const data = {
         interviewDate: selectedDate,
         interviewType: intType
     }
     const token = getToken();
-    console.log(token)
     try {
         const res = await axios.post(requestUrl, data,
             {

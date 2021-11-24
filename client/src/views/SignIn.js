@@ -89,8 +89,6 @@ export default function SignIn() {
                     navigate('/dashboard', { state: 'Interviewwer login successful!' })
                 }
             } catch (error) {
-                console.log(error)
-                console.log(error.response.data)
                 setErrorMsg(error.response.data.message);
                 setOpen(true);
             }

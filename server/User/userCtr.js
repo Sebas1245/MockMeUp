@@ -9,6 +9,8 @@ ctr.bookInterview = () => async (req, res, next) => {
     const convertedDate = new Date(interviewDate);
     const interviewWeekDay = convertedDate.getDay();
     const interviewStartHour = convertedDate.getHours();
+    console.log("interviewWeekDay: ", interviewWeekDay)
+    console.log("interviewStartHour: ", interviewStartHour)
     // check if an interviewer is available for the chosen date and time 
     // first we filter out those who are already booked on that date
     let interviewersScheduledAtDate = await Interview.find({ date: convertedDate }, { _id: 0, _interviewer: 1 });

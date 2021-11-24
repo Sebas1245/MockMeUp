@@ -121,7 +121,6 @@ export default function InterviewerAvailabilityForm() {
                 availableHourEnd: submitEndTime
             }
             const token = getToken();
-            console.log(token)
             try {
                 const res = await axios.put(requestUrl, data,
                     {

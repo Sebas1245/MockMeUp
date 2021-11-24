@@ -114,7 +114,6 @@ export default function SignUp() {
         else {
             const requestUrl = process.env.REACT_APP_BACKEND_URI + "/api/register";
             try {
-                console.log(phone);
                 const res = await axios.post(requestUrl, {
                     name,
                     email,
@@ -132,7 +131,6 @@ export default function SignUp() {
 
             }
             catch (error) {
-                console.log(error.response.data);
                 setErrorMsg(error.response.data);
                 setOpen(true);
             }
